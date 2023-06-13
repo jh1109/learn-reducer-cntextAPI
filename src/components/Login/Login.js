@@ -11,6 +11,17 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
+  // 종속성 배열이 빈 배열([])일 때는,
+  // 처음 마운트 될 때만 렌더링 된다.
+  // 만약 여기서 종속성 배열이 빈 배열이라면,
+  // cleanup 함수는 Login 컴포넌트가 DOM에서 제외될 때 동작한다.
+  useEffect(() => {
+    console.log("effect running");
+    return () => {
+      console.log("effect cleanup");
+    };
+  }, [enteredEmail]);
+
   useEffect(() => {
     const identifier = setTimeout(() => {
       console.log("checking");
@@ -20,6 +31,7 @@ const Login = (props) => {
     }, 500);
     // 클린업 함수
     // 첫 번째 사이드이펙트가 실행되기 전에는 실행되지 않음.
+    // 하지만 첫 번째 사이드이펙트가 실행되면 먼저 실행됨!
     // 새로운 타이머를 설정하기 전에 마지막 타이머를 지움(clearTimeout)
     return () => {
       console.log("clean up");
