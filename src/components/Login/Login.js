@@ -12,9 +12,19 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes("@") && enteredPassword.trim().length > 6
-    );
+    const identifier = setTimeout(() => {
+      console.log("checking");
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    // 클린업 함수
+    // 첫 번째 사이드이펙트가 실행되기 전에는 실행되지 않음.
+    // 새로운 타이머를 설정하기 전에 마지막 타이머를 지움(clearTimeout)
+    return () => {
+      console.log("clean up");
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword]);
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
