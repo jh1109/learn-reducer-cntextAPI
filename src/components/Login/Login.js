@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
 
 // emailReducer는 Login 컴포넌트 내의 값을 사용하지 않기 때문에, 외부에 만들 수 있다.
 const emailReducer = (state, action) => {
@@ -25,7 +26,7 @@ const passwordReducer = (state, action) => {
   return { value: "", isValid: false };
 };
 
-const Login = (props) => {
+const Login = () => {
   // const [enteredEmail, setEnteredEmail] = useState("");
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState("");
@@ -41,6 +42,8 @@ const Login = (props) => {
     value: "",
     isValid: null,
   });
+
+  const authCtx = useContext(AuthContext);
 
   // 종속성 배열이 빈 배열([])일 때는,
   // 처음 마운트 될 때만 렌더링 된다.
@@ -105,7 +108,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
