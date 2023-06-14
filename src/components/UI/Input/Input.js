@@ -1,8 +1,14 @@
 import React from "react";
 
-const Input = ({ className, id, type, label, value, onChange, onBlur }) => {
+import classes from "./Input.module.css";
+
+const Input = ({ isValid, id, type, label, value, onChange, onBlur }) => {
   return (
-    <div className={className}>
+    <div
+      className={`${classes.control} ${
+        isValid === false ? classes.invalid : ""
+      }`}
+    >
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
