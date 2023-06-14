@@ -53,32 +53,34 @@ const Login = (props) => {
   //   };
   // }, [enteredEmail]);
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log("checking");
-  //     setFormIsValid(
-  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   // 클린업 함수
-  //   // 첫 번째 사이드이펙트가 실행되기 전에는 실행되지 않음.
-  //   // 하지만 첫 번째 사이드이펙트가 실행되면 먼저 실행됨!
-  //   // 새로운 타이머를 설정하기 전에 마지막 타이머를 지움(clearTimeout)
-  //   return () => {
-  //     console.log("clean up");
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
+  // emailState, passwordState의 입력값 유효성값 둘다 말고,
+  // 유효성 값에서만 useEffect()가 동작하게 하게 싶다.
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("checking");
+      setFormIsValid(emailIsValid && passwordIsValid);
+    }, 500);
+    // 클린업 함수
+    // 첫 번째 사이드이펙트가 실행되기 전에는 실행되지 않음.
+    // 하지만 첫 번째 사이드이펙트가 실행되면 먼저 실행됨!
+    // 새로운 타이머를 설정하기 전에 마지막 타이머를 지움(clearTimeout)
+    return () => {
+      console.log("clean up");
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, passwordIsValid]);
   const emailChangeHandler = (event) => {
     // type이 있는 객체가 action
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-    setFormIsValid(event.target.value.includes("@") && passwordState.isValid);
+    // setFormIsValid(event.target.value.includes("@") && passwordState.isValid);
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
     // setEnteredPassword(event.target.value);
-    setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+    // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
   };
 
   const validateEmailHandler = () => {
