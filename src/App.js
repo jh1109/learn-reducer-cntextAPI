@@ -26,11 +26,13 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
+    >
       {/* context가 필요한 컴포넌트를 감싸준다. (공급=>component)
       감싸준 하위 컴포넌트에서 context에 모두 접근할 수 있다.*/}
       {/* {isLoggedIn: isLoggedIn} 으로 작성함으로써 변경된 state 값을 전달 할 수 있음 */}
-      <MainHeader onLogout={logoutHandler} />
+      <MainHeader />
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
